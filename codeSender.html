@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>codeSender</title>
+</head>
+
+<body>
+    <div>
+        <input type="text" name="phone">
+    </div>
+    <div>
+        <input type="text" name="code">
+        <input type="button" onclick="sendCodeFunc(this)" value="发送验证码">
+    </div>
+</body>
+
+<script>
+    function sendCodeFunc(_this) {
+        const phone = document.querySelector("[name=phone]").value;
+        const pattern = /^1[3456789]\d{9}$/;
+        if (!phone) {
+            alert("请输入手机号")
+            return
+        }
+        if (!pattern.test(phone)) {
+            alert("请输入正确的手机号")
+            return
+        }
+        let counts = 60;
+        settime(_this);
+
+        function settime(val) {
+            if (counts == 0) {
+                val.removeAttribute("disabled");
+                val.value = "获取验证码";
+                counts = 60;
+                return false;
+            } else {
+                val.setAttribute("disabled", true);
+                val.value = "重新发送（" + counts + "）";
+                counts--;
+            }
+            setTimeout(function () {
+                settime(val);
+            }, 1000);
+        }
+    }
+</script>
+
+</html>
